@@ -38,7 +38,7 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    
+
     //coffee add data api
     app.post('/coffee', async (req, res) => {
       const result = await coffeeCollection.insertOne(req.body);
@@ -52,7 +52,13 @@ async function run() {
       const result = await coffeeCollection.deleteOne(query);
       res.send(result);
     })
-
+    //coffee update api for find one according to _id
+    app.get('/coffee/:id',async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await coffeeCollection.findOne(query);
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
